@@ -10,20 +10,27 @@ class First:
         assert f(["ABC", "XYZ"]) == ('x', 'y', 'z')
     """
 
+    @classmethod
+    def _as_callable(cls, f):
+        if isinstance(f, Callable):
+            return f
+        if hasattr(f, "__getitem__"):
+            return f.__getitem__
+        raise RuntimeError("It appears that the passed object f supports neither f(-) nor f[-].")
+
     def __init__(self, f):
         self.__ff = []
         self.then(f)
 
     def then(self, f):
-        if isinstance(f, Callable):
-            self.__ff.append(f)
-            return self
+        self.__ff.append(self._as_callable(f))
+        return self
 
-        if hasattr(f, "__getitem__"):
-            self.__ff.append(f.__getitem__)
-            return self
-
-        raise RuntimeError("It appears that the passed object f supports neither f(-) nor f[-].")
+    def each(self, f):
+        self.__ff.append(
+            lambda c: map(self._as_callable(f), c)
+        )
+        return self
 
     def __matmul__(self, other):
         return First(other).then(self)
