@@ -1,5 +1,7 @@
 # RA, 2020-06-17
 
+import typing
+
 Stop1 = "X"
 
 # https://en.wikipedia.org/wiki/Genetic_code#Standard_codon_tables
@@ -116,3 +118,9 @@ rna_codons = {
     'GGA': "G",
     'GGG': "G",
 }
+
+
+def triplets(s: str) -> typing.Iterable[str]:
+    assert ((len(s) % 3) == 0), "The string should have length a multiple of 3"
+    for n in range(0, len(s), 3):
+        yield s[n:(n + 3)]
