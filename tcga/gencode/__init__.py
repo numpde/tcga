@@ -1,1 +1,1 @@
-from .gencode import genetic_code
+from .gencode import rna_codons
