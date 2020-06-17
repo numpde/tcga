@@ -1,0 +1,2 @@
+Downloaded on 2020-06-15 12:45:49.709987+00:00 from
+https://raw.githubusercontent.com/wrpearson/fasta36/7c0dba1dfe5fc92d937f2bd5f9c90b8bfdb14743/data/blosum62.mat
