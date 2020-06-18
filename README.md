@@ -1,8 +1,23 @@
 Computational biology & bioinformatics utils
 ============================================
 
-Under development (2020-06-18).
-Meanwhile, some examples:
+## About
+
+This python package provides basic tools to work with genomic data.
+It is under development (2020-06-18). 
+Meanwhile, see examples below.
+
+
+## Installation
+
+Install or upgrade to newer version with:
+
+```shell
+pip install --upgrade tcga
+```
+
+
+## Usage
 
 
 ### [Example](tcga/examples/00001_codons.py)
@@ -64,3 +79,10 @@ print(json.dumps(annotations[aa_properties], indent=2))
 }
 ```
 
+## License
+
+MIT/Expat.
+
+## Suggestions
+
+Suggestions and help are most welcome. 
