@@ -4,19 +4,21 @@ import typing
 import itertools
 
 
-class Join:
+class _Join:
     def __init__(self, as_type=str):
         self._result_type = as_type
 
     def __getitem__(self, as_type=str):
-        self._result_type = as_type
-        return self
+        return _Join(as_type)
 
     def __call__(self, iterable: typing.Iterable):
         if self._result_type is str:
             return ''.join(itertools.chain.from_iterable(iterable))
         else:
             return self._result_type(itertools.chain.from_iterable(iterable))
+
+
+join = _Join()
 
 
 class First:
@@ -62,8 +64,3 @@ class First:
 
     def __getitem__(self, x):
         return self(x)
-
-
-#
-
-join = Join()
