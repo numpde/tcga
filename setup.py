@@ -10,7 +10,7 @@ setuptools.setup(
     author_email="numpde@null.net",
     keywords="computational biology bioinformatics genetics",
     description="Computational biology & bioinformatics utils",
-    long_description="Please see the [github page](https://github.com/numpde/tcga).",
+    long_description="Computational biology & bioinformatics utils. Please visit the [github page](https://github.com/numpde/tcga).",
     long_description_content_type="text/markdown",
     url="https://github.com/numpde/tcga",
     packages=setuptools.find_packages(),
