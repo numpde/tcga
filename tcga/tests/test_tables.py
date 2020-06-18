@@ -1,10 +1,16 @@
 # RA, 2020-06-18
 
-import unittest
+from unittest import TestCase
 from itertools import product
+from tcga.refs import annotations
 
 
-class TestTables(unittest.TestCase):
+def members(mod):
+    import inspect
+    return [b for (a, b) in inspect.getmembers(mod) if not a.startswith("_") and not inspect.ismodule(b)]
+
+
+class TestCodonTables(TestCase):
     def test_sanity(self):
         from tcga.codons.tables import standard
         self.assertEqual(type(standard), dict)
@@ -14,9 +20,14 @@ class TestTables(unittest.TestCase):
 
     def test_annotation(self):
         import tcga.codons.tables as tables
-        import inspect
-        tables = [b for (a, b) in inspect.getmembers(tables) if not a.startswith("__") and not inspect.ismodule(b)]
-        from tcga.refs import annotations
-        for T in tables:
+        for T in members(tables):
+            self.assertIn(T, annotations)
+            self.assertIn('source', annotations[T])
+
+
+class TestSAAA(TestCase):
+    def test_annotation(self):
+        import tcga.data.sa_aa_ref_chart.tables as tables
+        for T in members(tables):
             self.assertIn(T, annotations)
             self.assertIn('source', annotations[T])
