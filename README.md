@@ -16,7 +16,7 @@ RNA codons:
 {'UUU': 'F', 'UUC': 'F', 'UUA': 'L', ...}
 ```
 
-### [Example](tcga/examples/00002_codons.py)
+### [Example](tcga/examples/00002_compose.py)
 
 ```python
 from tcga.utils import First
@@ -33,7 +33,7 @@ print(X, "=>", f(X))
 CCGTTACCAGAGCTGTTCAAGCAC => HELVETIA
 ```
 
-### [Example](tcga/examples/00004_codons.py)
+### [Example](tcga/examples/00004_aa_properties1.py)
 
 ```python
 import json
