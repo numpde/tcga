@@ -1,16 +1,23 @@
 # RA, 2020-06-17
 
-import pandas as pd
 
 import re
-from collections import OrderedDict
+import pandas
+import collections
+
+import tcga.refs
+
+meta = {
+    'source': "https://github.com/wrpearson/fasta36/tree/7c0dba1dfe5fc92d937f2bd5f9c90b8bfdb14743/data",
+    'date': "2020-06-15",
+}
 
 
-def _make_dict(body) -> OrderedDict:
+def _make_dict(body) -> collections.OrderedDict:
     sub = re.compile(r"\s+").sub
     lines = [sub(' ', s.strip()).split(' ') for s in body.split('\n') if s.strip()]
-    d = OrderedDict(
-        (k, OrderedDict(zip(lines[0][1:], map(int, vv))))
+    d = collections.OrderedDict(
+        (k, collections.OrderedDict(zip(lines[0][1:], map(int, vv))))
         for (k, *vv) in lines[1:]
     )
     return d
@@ -132,10 +139,15 @@ __blosum80 = (
     """
 )
 
-blosum45 = pd.DataFrame(data=_make_dict(__blosum45)).T
-blosum50 = pd.DataFrame(data=_make_dict(__blosum50)).T
-blosum62 = pd.DataFrame(data=_make_dict(__blosum62)).T
-blosum80 = pd.DataFrame(data=_make_dict(__blosum80)).T
+blosum45 = pandas.DataFrame(data=_make_dict(__blosum45)).T
+blosum50 = pandas.DataFrame(data=_make_dict(__blosum50)).T
+blosum62 = pandas.DataFrame(data=_make_dict(__blosum62)).T
+blosum80 = pandas.DataFrame(data=_make_dict(__blosum80)).T
+
+tcga.refs.annotations[blosum45] = meta
+tcga.refs.annotations[blosum50] = meta
+tcga.refs.annotations[blosum62] = meta
+tcga.refs.annotations[blosum80] = meta
 
 if __name__ == '__main__':
     print(blosum45)

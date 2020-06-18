@@ -44,11 +44,3 @@ class TestFirst(TestCase):
         with self.assertRaises(RuntimeError):
             First(lambda x: x).then(2)
 
-
-if __name__ == "__main__":
-    # https://stackoverflow.com/questions/5360833/how-to-run-multiple-classes-in-single-test-suite-in-python-unit-testing
-    import sys
-    import unittest
-
-    suite = unittest.TestLoader().loadTestsFromModule(sys.modules[__name__])
-    unittest.TextTestRunner(verbosity=3).run(suite)

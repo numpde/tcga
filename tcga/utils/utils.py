@@ -1,6 +1,22 @@
 # RA, 2020-06-17
 
-from typing import Callable
+import typing
+import itertools
+
+
+class Join:
+    def __init__(self, as_type=str):
+        self._result_type = as_type
+
+    def __getitem__(self, as_type=str):
+        self._result_type = as_type
+        return self
+
+    def __call__(self, iterable: typing.Iterable):
+        if self._result_type is str:
+            return ''.join(itertools.chain.from_iterable(iterable))
+        else:
+            return self._result_type(itertools.chain.from_iterable(iterable))
 
 
 class First:
@@ -12,7 +28,7 @@ class First:
 
     @classmethod
     def _as_callable(cls, f):
-        if isinstance(f, Callable):
+        if isinstance(f, typing.Callable):
             return f
         if hasattr(f, "__getitem__"):
             return f.__getitem__
@@ -32,6 +48,10 @@ class First:
         )
         return self
 
+    def join(self, as_type):
+        self.__ff.append(Join(as_type))
+        return self
+
     def __matmul__(self, other):
         return First(other).then(self)
 
@@ -42,3 +62,8 @@ class First:
 
     def __getitem__(self, x):
         return self(x)
+
+
+#
+
+join = Join()

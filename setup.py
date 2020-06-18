@@ -5,7 +5,7 @@ with open("README.md", 'r') as fd:
 
 setuptools.setup(
     name="tcga",
-    version="0.0.4",
+    version="0.0.5",
     author="RA",
     author_email="numpde@null.net",
     keywords="computational biology bioinformatics genetics",

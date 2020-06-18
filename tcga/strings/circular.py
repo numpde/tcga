@@ -1,10 +1,10 @@
 # RA, 2020-06-17
 
-from typing import Union, Iterable
-from itertools import chain
+from tcga.utils import join
+import typing
 
 
-def circular_windows(v: slice, n: int) -> Iterable[slice]:
+def circular_windows(v: slice, n: int) -> typing.Iterable[slice]:
     """
     For an extended slice `v`, generate a set of slices
     for a sequence of length `n`, so that they
@@ -92,38 +92,80 @@ def circular_windows(v: slice, n: int) -> Iterable[slice]:
     raise NotImplementedError
 
 
-class CircularView:
-    def __init__(self, x: Union[str, list, tuple]):
-        self.x = x
-        self._i = None
+class _Laola:
+    class Viewer:
+        def __init__(self, key):
+            self.key = key
+
+        def __call__(self, x: typing.Union[str, list, tuple]):
+            if isinstance(self.key, slice):
+                self.key.indices(1)
+                parts = (x[w] for w in circular_windows(self.key, len(x)))
+                return join[type(x)](parts)
+
+            if isinstance(self.key, int):
+                return x[self.key % len(x)]
+
+            raise NotImplementedError
 
     def __getitem__(self, key):
-        if isinstance(key, slice):
-            key.indices(1)
-
-            parts = (self.x[w] for w in circular_windows(key, len(self.x)))
-
-            if isinstance(self.x, str):
-                return ''.join(parts)
-            if isinstance(self.x, list):
-                return list(chain.from_iterable(parts))
-            if isinstance(self.x, tuple):
-                return tuple(chain.from_iterable(parts))
-
-        if isinstance(key, int):
-            return self.x[key % len(self.x)]
-
-        raise NotImplementedError
+        return _Laola.Viewer(key)
 
 
-if __name__ == '__main__':
+laola = _Laola()
+
+
+class Circular:
+    """
+    Provides a view of a string/list/tuple
+    pretending that it is circular.
+
+    For example,
+        Circular("ABC")[-3:5:2]
+    returns
+        "ACBA"
+    because:
+        ABCABCABC
+       -3  012345
+        * * * *
+
+    The view returns a shallow copy.
+
+    Note: len/str/repr refer to the original.
+    """
+
+    def __init__(self, x):
+        self.x = x
+
+    def __getitem__(self, key):
+        return laola[key](self.x)
+
+    def __len__(self):
+        return len(self.x)
+
+    def __repr__(self):
+        return F"{type(self).__name__}({repr(self.x)})"
+
+
+def example():
     S = "a string"
     assert S[3:1] == ""
 
     for n in range(-10, 30):
-        assert CircularView(S)[n] == S[n % len(S)]
+        assert Circular(S)[n] == S[n % len(S)]
 
-    assert CircularView(S)[3:1] == S[3:1]
+    assert Circular(S)[3:1] == S[3:1]
+
+    #
+    print("Example 1")
+
+    w = laola[-3:5:2]
+    s = "ABC"
+    print(F"If w = laola[-3:5:2] and s = '{s}' then")
+    print(F"    w(s) = '{w(s)}'")
+
+    #
+    print("Example 2")
 
     v = slice(-3, 5, 2)
     s = "ABC"
@@ -132,9 +174,15 @@ if __name__ == '__main__':
     print(F"is")
     print(F"    {[s[w] for w in circular_windows(v, len(s))]}")
 
-    print(F"Examples of {CircularView.__name__}:")
+    #
+    print(F"Examples of {Circular.__name__}:")
+
     for n in range(0, 30):
         a = -n // 2
         b = n
-        s = CircularView(S)[a:b:2]
-        print(F'{CircularView.__name__}("{S}")[{a}:{b}:2] is "{s}"')
+        s = Circular(S)
+        print(F"{s}[{a}:{b}:2] is '{s[a:b:2]}'")
+
+
+if __name__ == '__main__':
+    example()
