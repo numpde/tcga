@@ -4,7 +4,7 @@ Computational biology & bioinformatics utils
 
 ## About
 
-This python package provides basic tools to work with genomic data.
+This python3 package provides basic tools to work with genomic data.
 It is under development (2020-06-18). 
 Meanwhile, see examples below.
 
@@ -14,7 +14,7 @@ Meanwhile, see examples below.
 Install or upgrade to newer version with:
 
 ```shell
-pip install --upgrade tcga
+pip3 install --upgrade tcga
 ```
 
 
@@ -74,6 +74,8 @@ EGBDFACEGBDF
 
 
 ### [Example](tcga/examples/00004_aa_properties1.py)
+
+Requires [ʕ◕ᴥ◕ʔ](https://pandas.pydata.org/).
 
 ```python
 import json
