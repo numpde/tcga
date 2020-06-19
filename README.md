@@ -115,6 +115,7 @@ print(json.dumps(annotations[aa_properties], indent=2))
 ```python
 import json
 from tcga.data import aaindex
+from tcga.refs import annotations
 
 pretty = (lambda x: json.dumps(dict(x), indent=2, default=(lambda x: '...')))
 
@@ -129,6 +130,11 @@ key = 'ALTS910101'
 print(F"Record for '{key}'", pretty(aaindex.data[key]), sep=" = ")
 print("where the matrix M is:")
 print(aaindex.data[key]['M'])
+
+print("-" * 42)
+
+print("Source:")
+print(annotations[aaindex.data]['source'])
 ```
 
 ```
@@ -167,6 +173,14 @@ A  3.0 -3.0  0.0  0.0 -3.0 -1.0  0.0  ... -4.0  1.0  1.0  1.0  -7.0 -4.0  0.0
 R -3.0  6.0 -1.0 -3.0 -4.0  1.0 -3.0  ... -4.0 -1.0 -1.0 -2.0   1.0 -6.0 -3.0
 N  0.0 -1.0  4.0  2.0 -5.0  0.0  1.0  ... -4.0 -2.0  1.0  0.0  -5.0 -2.0 -3.0
 D  0.0 -3.0  2.0  5.0 -7.0  1.0  3.0  ... -7.0 -2.0  0.0 -1.0  -8.0 -5.0 -3.0
+...
+------------------------------------------
+Source:
+Created on 2020-06-19 14:59:55.332753+00:00 using
+...
+list_of_matrices: 
+Downloaded on 2020-06-18 15:00:16.545749+00:00 from
+https://www.genome.jp/aaindex/AAindex/list_of_matrices
 ...
 ```
 

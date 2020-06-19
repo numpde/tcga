@@ -14,7 +14,9 @@ class _:
             data = pickle.load(fd)
 
     with (file.parent / F"{file.name}_meta.txt").open('r') as fd:
-        meta = fd.read()
+        meta = {
+            'source': fd.read(),
+        }
 
 
 data: pandas.Series
@@ -27,10 +29,12 @@ indices = _.data['list_of_indices']
 matrices = _.data['list_of_matrices']
 potentials = _.data['list_of_potentials']
 
-tcga.refs.annotations[data]['source'] = _.meta
-tcga.refs.annotations[indices]['source'] = _.meta
-tcga.refs.annotations[matrices]['source'] = _.meta
-tcga.refs.annotations[potentials]['source'] = _.meta
+tcga.refs.annotations[data] = _.meta
+tcga.refs.annotations[indices] = _.meta
+tcga.refs.annotations[matrices] = _.meta
+tcga.refs.annotations[potentials] = _.meta
+
+del _
 
 if __name__ == '__main__':
     print(data[indices.sample(1).index[0]].I)

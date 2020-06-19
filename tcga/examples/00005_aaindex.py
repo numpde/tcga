@@ -2,6 +2,7 @@
 
 import json
 from tcga.data import aaindex
+from tcga.refs import annotations
 
 pretty = (lambda x: json.dumps(dict(x), indent=2, default=(lambda x: '...')))
 
@@ -16,3 +17,8 @@ key = 'ALTS910101'
 print(F"Record for '{key}'", pretty(aaindex.data[key]), sep=" = ")
 print("where the matrix M is:")
 print(aaindex.data[key]['M'])
+
+print("-" * 42)
+
+print("Source:")
+print(annotations[aaindex.data]['source'])
