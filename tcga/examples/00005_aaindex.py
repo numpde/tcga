@@ -6,9 +6,9 @@ from tcga.data import aaindex
 pretty = (lambda x: json.dumps(dict(x), indent=2, default=(lambda x: '...')))
 
 print("AAindex objects (excerpts):")
-print("indices =   ", pretty(aaindex.indices.head(3)))
-print("matrices =  ", pretty(aaindex.matrices.head(3)))
-print("potentials =", pretty(aaindex.potentials.head(3)))
+print("indices", pretty(aaindex.indices.head(3)), sep=" = ")
+print("matrices", pretty(aaindex.matrices.head(3)), sep=" = ")
+print("potentials", pretty(aaindex.potentials.head(3)), sep=" = ")
 
 print("-" * 42)
 

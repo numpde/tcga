@@ -17,6 +17,7 @@ class _:
         meta = fd.read()
 
 
+data: pandas.Series
 indices: pandas.Series
 matrices: pandas.Series
 potentials: pandas.Series

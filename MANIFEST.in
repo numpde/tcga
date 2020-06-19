@@ -1,1 +1,2 @@
 exclude tcga/data/aaindex/static/original
+recursive-include tcga/data/aaindex/static/parsed

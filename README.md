@@ -119,9 +119,9 @@ from tcga.data import aaindex
 pretty = (lambda x: json.dumps(dict(x), indent=2, default=(lambda x: '...')))
 
 print("AAindex objects (excerpts):")
-print("indices =   ", pretty(aaindex.indices.head(3)))
-print("matrices =  ", pretty(aaindex.matrices.head(3)))
-print("potentials =", pretty(aaindex.potentials.head(3)))
+print("indices", pretty(aaindex.indices.head(3)), sep=" = ")
+print("matrices", pretty(aaindex.matrices.head(3)), sep=" = ")
+print("potentials", pretty(aaindex.potentials.head(3)), sep=" = ")
 
 print("-" * 42)
 
@@ -133,12 +133,12 @@ print(aaindex.data[key]['M'])
 
 ```
 AAindex objects (excerpts):
-indices =    {
+indices = {
   "ANDN920101": "alpha-CH chemical shifts (Andersen et al., 1992)",
   "ARGP820102": "Signal sequence helical potential (Argos et al., 1982)",
   "BEGF750101": "Conformational parameter of inner helix (Beghin-Dirkx, 1975)"
 }
-matrices =   {
+matrices = {
   "ALTS910101": "The PAM-120 matrix (Altschul, 1991)",
   "BENS940102": "Log-odds scoring matrix collected in 22-29 PAM (Benner et al., 1994)",
   "BENS940104": "Genetic code matrix (Benner et al., 1994)"
