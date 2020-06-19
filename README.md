@@ -7,6 +7,10 @@ Computational biology & bioinformatics utils
 This python3 package provides basic tools to work with genomic data.
 It is under development (2020-06-18). 
 Meanwhile, see examples below.
+Note: some examples may require packages 
+that are not automatically installed
+with this package
+(e.g. [ʕ◕ᴥ◕ʔ](https://pandas.pydata.org/)). 
 
 
 ## Installation
@@ -75,8 +79,6 @@ EGBDFACEGBDF
 
 ### [Example](tcga/examples/00004_aa_properties1.py)
 
-Requires [ʕ◕ᴥ◕ʔ](https://pandas.pydata.org/).
-
 ```python
 import json
 from tcga.refs import annotations
@@ -106,6 +108,68 @@ print(json.dumps(annotations[aa_properties], indent=2))
   ]
 }
 ```
+
+
+### [Example](tcga/examples/00005_aaindex.py)
+
+```python
+import json
+from tcga.data import aaindex
+
+pretty = (lambda x: json.dumps(dict(x), indent=2, default=(lambda x: '...')))
+
+print("AAindex objects (excerpts):")
+print("indices =   ", pretty(aaindex.indices.head(3)))
+print("matrices =  ", pretty(aaindex.matrices.head(3)))
+print("potentials =", pretty(aaindex.potentials.head(3)))
+
+print("-" * 42)
+
+key = 'ALTS910101'
+print(F"Record for '{key}' =", pretty(aaindex.data[key]))
+print("where the matrix M is:")
+print(aaindex.data[key]['M'])
+```
+
+```
+AAindex objects (excerpts):
+indices =    {
+  "ANDN920101": "alpha-CH chemical shifts (Andersen et al., 1992)",
+  "ARGP820102": "Signal sequence helical potential (Argos et al., 1982)",
+  "BEGF750101": "Conformational parameter of inner helix (Beghin-Dirkx, 1975)"
+}
+matrices =   {
+  "ALTS910101": "The PAM-120 matrix (Altschul, 1991)",
+  "BENS940102": "Log-odds scoring matrix collected in 22-29 PAM (Benner et al., 1994)",
+  "BENS940104": "Genetic code matrix (Benner et al., 1994)"
+}
+potentials = {
+  "TANS760101": "Statistical contact potential derived from 25 x-ray protein structures",
+  "ROBB790102": "Interaction energies derived from side chain contacts in the interiors of known protein structures",
+  "THOP960101": "Mixed quasichemical and optimization-based protein contact potential"
+}
+------------------------------------------
+Record for 'ALTS910101' = {
+  "*": NaN,
+  "A": "Altschul, S.F.",
+  "C": NaN,
+  "D": "The PAM-120 matrix (Altschul, 1991)",
+  "H": "ALTS910101",
+  "I": NaN,
+  "J": "J. Mol. Biol. 219, 555-565 (1991)",
+  "M": "...",
+  "R": "PMID:2051488",
+  "T": "Amino acid substitution matrices from an information theoretic perspective"
+}
+where the matrix M is:
+     A    R    N    D    C    Q    E  ...    F    P    S    T     W    Y    V
+A  3.0 -3.0  0.0  0.0 -3.0 -1.0  0.0  ... -4.0  1.0  1.0  1.0  -7.0 -4.0  0.0
+R -3.0  6.0 -1.0 -3.0 -4.0  1.0 -3.0  ... -4.0 -1.0 -1.0 -2.0   1.0 -6.0 -3.0
+N  0.0 -1.0  4.0  2.0 -5.0  0.0  1.0  ... -4.0 -2.0  1.0  0.0  -5.0 -2.0 -3.0
+D  0.0 -3.0  2.0  5.0 -7.0  1.0  3.0  ... -7.0 -2.0  0.0 -1.0  -8.0 -5.0 -3.0
+...
+```
+
 
 
 ## License

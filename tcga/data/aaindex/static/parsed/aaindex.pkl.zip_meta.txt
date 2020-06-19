@@ -1,0 +1,30 @@
+Created on 2020-06-19 14:59:55.332753+00:00 using
+
+aaindex.doc: 
+Downloaded on 2020-06-18 15:00:12.671167+00:00 from
+ftp://ftp.genome.jp/pub/db/community/aaindex/aaindex.doc
+
+aaindex1: 
+Downloaded on 2020-06-18 14:59:52.280035+00:00 from
+ftp://ftp.genome.jp/pub/db/community/aaindex/aaindex1
+
+aaindex2: 
+Downloaded on 2020-06-18 15:00:04.598136+00:00 from
+ftp://ftp.genome.jp/pub/db/community/aaindex/aaindex2
+
+aaindex3: 
+Downloaded on 2020-06-18 15:00:42.358891+00:00 from
+ftp://ftp.genome.jp/pub/db/community/aaindex/aaindex3
+
+list_of_indices: 
+Downloaded on 2020-06-18 15:00:23.435241+00:00 from
+https://www.genome.jp/aaindex/AAindex/list_of_indices
+
+list_of_matrices: 
+Downloaded on 2020-06-18 15:00:16.545749+00:00 from
+https://www.genome.jp/aaindex/AAindex/list_of_matrices
+
+list_of_potentials: 
+Downloaded on 2020-06-18 15:00:28.220858+00:00 from
+https://www.genome.jp/aaindex/AAindex/list_of_potentials
+
