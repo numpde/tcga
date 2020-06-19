@@ -126,7 +126,7 @@ print("potentials", pretty(aaindex.potentials.head(3)), sep=" = ")
 print("-" * 42)
 
 key = 'ALTS910101'
-print(F"Record for '{key}' =", pretty(aaindex.data[key]))
+print(F"Record for '{key}'", pretty(aaindex.data[key]), sep=" = ")
 print("where the matrix M is:")
 print(aaindex.data[key]['M'])
 ```
