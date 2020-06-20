@@ -5,7 +5,7 @@ import setuptools
 
 setuptools.setup(
     name="tcga",
-    version="0.0.8",
+    version="0.0.10",
     author="RA",
     author_email="numpde@null.net",
     keywords="computational biology bioinformatics genetics",
@@ -21,6 +21,9 @@ setuptools.setup(
     ],
     python_requires='>=3.6',
     install_requires=[''],
+
+    # Required for includes in MANIFEST.in
+    include_package_data=True,
 
     test_suite="nose.collector",
     tests_require=["nose"],

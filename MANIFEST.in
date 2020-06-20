@@ -1,2 +1,8 @@
+
+# https://stackoverflow.com/questions/3596979/manifest-in-ignored-on-python-setup-py-install-no-data-files-installed
+
+include README.md
+
+include tcga/data/aaindex/static/parsed/aaindex.pkl.zip
+include tcga/data/aaindex/static/parsed/aaindex.pkl.zip_meta.txt
 exclude tcga/data/aaindex/static/original
-recursive-include tcga/data/aaindex/static/parsed
