@@ -13,21 +13,18 @@ class __:
 
     class Complementer:
         def __init__(self, p: str, q: str):
-            self._backward = False
+            self._reversed = False
             self._p = p
             self._q = q
             self.m = dict(zip(p, q))
 
         def __call__(self, s: str):
-            if self._backward:
-                return ''.join(self.m[c] for c in s[::-1])
-            else:
-                return ''.join(self.m[c] for c in s)
+            return ''.join(self.m[c] for c in (s[::-1] if self._reversed else s))
 
         @property
-        def backward(self):
+        def reverse(self):
             other = __.Complementer(self._p, self._q)
-            other._backward = not self._backward
+            other._reversed = not self._reversed
             return other
 
         @property

@@ -48,7 +48,7 @@ from tcga.strings import triplets, backward
 
 X = backward("CACGAACTTGTCGAGACCATTGCC")
 
-f = First(dna_to_dna.backward).then(dna_to_rna).then(triplets).each(rna_codons).join(str)
+f = First(dna_to_dna.reverse).then(dna_to_rna).then(triplets).each(rna_codons).join(str)
 print(X, "=>", f(X))
 ```
 

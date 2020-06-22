@@ -9,6 +9,6 @@ from tcga.strings import triplets, backward
 
 class TestCompose(unittest.TestCase):
     def test_transcription_translation(self):
-        f = First(dna_to_dna.backward).then(dna_to_rna).then(triplets).each(codons).join(str)
+        f = First(dna_to_dna.reverse).then(dna_to_rna).then(triplets).each(codons).join(str)
         self.assertEqual(f(backward("CACGAACTTGTCGAGACCATTGCC")), "HELVETIA")
 
