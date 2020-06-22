@@ -38,3 +38,4 @@ del _
 
 if __name__ == '__main__':
     print(data[indices.sample(1).index[0]].I)
+    print(data['DOSZ010101'].M)

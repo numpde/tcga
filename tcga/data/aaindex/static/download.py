@@ -87,7 +87,6 @@ def parse(k, g):
         return pd.to_numeric(pd.DataFrame(data, columns=['id', 'v']).set_index('id').v, errors='coerce')
     if (k == "M"):
         p = g[0]
-        p = p.replace("cols rows =", "cols =")  # A bug in entry "DOSZ010101"?
         p = re.fullmatch(r"(.*)(rows)([=\s]+)(?P<rows>[-\w]+)(.*)(cols)([=\s]+)(?P<cols>[-\w]+)(.*)", p).groupdict()
         data = [c.split() for c in g[1:]]
         assert len(p['rows']) == len(data)
@@ -114,20 +113,28 @@ def parse_aaindex_file(file: Path) -> Iterable[pd.Series]:
                 self.last = x
                 return x
 
+    def fix(s):
+        # Bugs in entry DOSZ010101--DOSZ010104
+        s = s.replace("cols rows =", "cols =")
+        s = s.replace("Doszt?yi", "Dosztanyi")
+        return s
+
+    def records(s):
+        return filter(lambda r: len(r), map(str.strip, s.split(sep="\n//")))
+
     with file.open('r') as fd:
-        for rec in map(str.strip, fd.read().split(sep="\n//")):
-            if rec:
-                try:
-                    yield pd.Series(OrderedDict([
-                        (k, parse(k, list(g)))
-                        for (k, g) in groupby(rec.split('\n'), key=First(first).then(ffill(' ')))
-                    ]))
-                except Exception as ex:
-                    print("Failed on:")
-                    print(rec.strip())
-                    print(F"because of: {ex}")
-                    time.sleep(1)
-                    raise
+        for rec in records(fix(fd.read())):
+            try:
+                yield pd.Series(OrderedDict([
+                    (k, parse(k, list(g)))
+                    for (k, g) in groupby(rec.split('\n'), key=First(first).then(ffill(' ')))
+                ]))
+            except Exception as ex:
+                print("Failed on:")
+                print(rec.strip())
+                print(F"because of: {ex}")
+                time.sleep(1)
+                raise
 
 
 def main():
@@ -166,10 +173,14 @@ def main():
         for file in files
     )
 
-    with open(str(out) + "_meta.txt", 'w') as fd:
+    out_meta = Path(str(out) + "_meta.txt")
+    with out_meta.open('w') as fd:
         print("Created on {} using".format(datetime.now(tz=timezone.utc)), file=fd)
         print("", file=fd)
         print(meta, file=fd)
+
+    print(F"Done; see {out_meta}")
+
 
 if __name__ == '__main__':
     main()
