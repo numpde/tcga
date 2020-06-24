@@ -4,11 +4,11 @@ import unittest
 
 from tcga.utils import First
 from tcga.codons.tables import standard as codons
-from tcga.strings.complements import dna_to_rna, dna_to_dna
-from tcga.strings import triplets, backward
+from tcga.complements.complements import dna_to_rna, dna_to_dna
+from tcga.strings import triplets, reverse
 
 class TestCompose(unittest.TestCase):
     def test_transcription_translation(self):
         f = First(dna_to_dna.reverse).then(dna_to_rna).then(triplets).each(codons).join(str)
-        self.assertEqual(f(backward("CACGAACTTGTCGAGACCATTGCC")), "HELVETIA")
+        self.assertEqual(f(reverse("CACGAACTTGTCGAGACCATTGCC")), "HELVETIA")
 

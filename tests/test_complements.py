@@ -5,7 +5,7 @@ import unittest
 
 class TestComplements(unittest.TestCase):
     def test_basic(self):
-        from tcga.strings.complements import dna_to_dna
+        from tcga.complements.complements import dna_to_dna
         self.assertEqual("CGTA", dna_to_dna("GCAT"))
 
 

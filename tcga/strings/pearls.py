@@ -3,29 +3,57 @@
 import typing
 
 
-def kplets(k: int, s: str) -> typing.Iterable[str]:
-    if (len(s) % k):
+def kplets(k: int, s: str, no_remainder=True) -> typing.Iterable[str]:
+    """
+    When k = 3, from a string like s = 'GCATCGAGC'
+    generate the triples 'GCA', 'TCG', 'AGC'.
+    Similarly for other k >= 1.
+    The string must have length divisible by k
+    when no_remainder is True; otherwise
+    the trailing characters are ignored.
+    """
+    assert (k >= 1)
+
+    if no_remainder and (len(s) % k):
         raise ValueError(F"The string should have length a multiple of {k}")
-    for n in range(0, len(s), k):
+
+    for n in range(0, (len(s) // k) * k, k):
         yield s[n:(n + k)]
 
 
-def triplets(s: str):
-    yield from kplets(3, s)
+def triplets(s: str) -> typing.Iterable[str]:
+    """
+    From a string like s = 'GCATCGAGC'
+    generate the triples 'GCA', 'TCG', 'AGC'.
+    """
+    yield from kplets(3, s, no_remainder=True)
 
 
-def backward(s: str) -> str:
+def reverse(s: str) -> str:
+    """
+    For a string s return the reversed string s[::-1].
+    """
     return s[::-1]
 
 
-def nnna_to_dict(s: str, n=3, a=1) -> dict:
+def nnna(s: str, n=3, m=1) -> typing.Iterable[typing.Tuple[str, str]]:
     """
     Takes a string like
         UUU F UUC F ...
-    Returns a dictionary
-        {'UUU': 'F', 'UUC': 'F', ...}
-    White spaces and new lines are ignored.
+    where white spaces and new lines are ignored.
+
+    Generates tuples
+        ('UUU', 'F'), ('UUC', 'F'), ...
     """
+    assert (n >= 0) and (m >= 0) and (n + m >= 1)
+
+    import re
+    s = re.sub(r"\s+", "", s)
+
+    if (len(s) % (n + m)):
+        raise ValueError(F"The string's length {len(s)} (ignoring whitespace) is not a multiple of (n + m) = {n + m}.")
+
     from tcga.utils import First
-    f = First(str.split).then(''.join).then(lambda s: kplets(n + a, s)).each(lambda s: (s[0:n], s[n:(n + a)]))
-    return dict(f(s))
+    f = First(lambda x: kplets(n + m, x)).each(lambda x: (x[0:n], x[n:(n + m)]))
+
+    yield from f(s)

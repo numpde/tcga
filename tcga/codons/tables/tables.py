@@ -11,7 +11,7 @@ import tcga.refs
 # On codes
 # https://en.wikipedia.org/wiki/Translation_(biology)#Translation_tables
 
-standard = tcga.strings.nnna_to_dict(
+standard = dict(tcga.strings.nnna(
     # (Phe/F) Phenylalanine
     'UUU F'
     'UUC F'
@@ -98,7 +98,7 @@ standard = tcga.strings.nnna_to_dict(
     'GGC G'
     'GGA G'
     'GGG G'
-)
+))
 
 tcga.refs.annotations[standard] = {
     'source': "https://en.wikipedia.org/wiki/Genetic_code#Standard_codon_tables",

@@ -1,15 +1,19 @@
 # RA, 2020-06-17
 
 import pandas
+import tcga.refs
 
 
-# https://en.wikipedia.org/wiki/Complementarity_(molecular_biology)
-
-class __:
+class _:
     dna0 = "ACGTWSMKRYBDHVN"
     dna1 = "TGCAWSKMYRVHDBN"
     rna0 = "ACGUWSMKRYBDHVN"
     rna1 = "UGCAWSKMYRVHDBN"
+
+    meta = {
+        'data': "2020-06-17",
+        'source': "https://en.wikipedia.org/wiki/Complementarity_(molecular_biology)",
+    }
 
     class Complementer:
         def __init__(self, p: str, q: str):
@@ -23,7 +27,7 @@ class __:
 
         @property
         def reverse(self):
-            other = __.Complementer(self._p, self._q)
+            other = _.Complementer(self._p, self._q)
             other._reversed = not self._reversed
             return other
 
@@ -56,10 +60,15 @@ class __:
             return df
 
 
-dna_to_dna = __.Complementer(__.dna0, __.dna1)
-dna_to_rna = __.Complementer(__.dna0, __.rna1)
-rna_to_rna = __.Complementer(__.rna0, __.rna1)
-rna_to_dna = __.Complementer(__.rna0, __.dna1)
+dna_to_dna = _.Complementer(_.dna0, _.dna1)
+dna_to_rna = _.Complementer(_.dna0, _.rna1)
+rna_to_rna = _.Complementer(_.rna0, _.rna1)
+rna_to_dna = _.Complementer(_.rna0, _.dna1)
+
+tcga.refs.annotations[dna_to_dna] = _.meta
+tcga.refs.annotations[dna_to_rna] = _.meta
+tcga.refs.annotations[rna_to_rna] = _.meta
+tcga.refs.annotations[rna_to_dna] = _.meta
 
 if __name__ == '__main__':
     print("Nucleotides:", dna_to_dna.legend, sep='\n')

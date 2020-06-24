@@ -25,7 +25,7 @@ pip3 install --upgrade tcga
 ## Usage
 
 
-### [Example](tcga/examples/00001_codons.py)
+### [Example](examples/00001_codons.py)
 
 ```python
 from tcga.codons.tables import standard as rna_codons
@@ -38,15 +38,15 @@ RNA codons:
 ```
 
 
-### [Example](tcga/examples/00002_compose.py)
+### [Example](examples/00002_compose.py)
 
 ```python
 from tcga.utils import First
 from tcga.codons.tables import standard as rna_codons
-from tcga.strings.complements import dna_to_rna, dna_to_dna
-from tcga.strings import triplets, backward
+from tcga.complements.complements import dna_to_rna, dna_to_dna
+from tcga.strings import triplets, reverse
 
-X = backward("CACGAACTTGTCGAGACCATTGCC")
+X = reverse("CACGAACTTGTCGAGACCATTGCC")
 
 f = First(dna_to_dna.reverse).then(dna_to_rna).then(triplets).each(rna_codons).join(str)
 print(X, "=>", f(X))
@@ -57,7 +57,7 @@ CCGTTACCAGAGCTGTTCAAGCAC => HELVETIA
 ```
 
 
-### [Example](tcga/examples/00003_circular.py)
+### [Example](examples/00003_circular.py)
 
 ```python
 from tcga.strings import Circular
@@ -77,7 +77,7 @@ EGBDFACEGBDF
 ```
 
 
-### [Example](tcga/examples/00004_aa_properties1.py)
+### [Example](examples/00004_aa_properties1.py)
 
 ```python
 import json
@@ -110,7 +110,7 @@ print(json.dumps(annotations[aa_properties], indent=2))
 ```
 
 
-### [Example](tcga/examples/00005_aaindex.py)
+### [Example](examples/00005_aaindex.py)
 
 ```python
 import json

@@ -6,11 +6,11 @@ import tcga.strings.pearls as pearls
 
 class Backward(TestCase):
     def test_str(self):
-        self.assertEqual("", pearls.backward(""))
-        self.assertEqual("4321", pearls.backward("1234"))
+        self.assertEqual("", pearls.reverse(""))
+        self.assertEqual("4321", pearls.reverse("1234"))
 
     def test_tuple(self):
-        self.assertEqual(tuple("4321"), pearls.backward(tuple("1234")))
+        self.assertEqual(tuple("4321"), pearls.reverse(tuple("1234")))
 
 
 class Triplets(TestCase):
@@ -27,12 +27,13 @@ class Triplets(TestCase):
 
 
 class NNNA(TestCase):
-    def test_type(self):
-        self.assertIs(type(pearls.nnna_to_dict("1234")), dict)
+    def test_dictable(self):
+        dict(pearls.nnna("1234"))
 
     def test_ok(self):
-        self.assertDictEqual(pearls.nnna_to_dict(" A  B \n C D \n a  b c  d  "), {'ABC': "D", 'abc': "d"})
+        self.assertDictEqual(dict(pearls.nnna(" A  B \n C D \n a  b c  d  ")), {'ABC': "D", 'abc': "d"})
 
     def test_fail(self):
         with self.assertRaises(ValueError):
-            pearls.nnna_to_dict("12345")
+            list(pearls.nnna("12345"))
+

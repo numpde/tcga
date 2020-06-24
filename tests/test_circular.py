@@ -2,7 +2,7 @@
 
 from unittest import TestCase
 
-from tcga.strings import Circular
+from tcga.utils import Circular
 
 
 class TestCircularView(TestCase):

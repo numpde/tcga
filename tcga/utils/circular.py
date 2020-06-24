@@ -1,6 +1,6 @@
 # RA, 2020-06-17
 
-from tcga.utils import join
+import tcga.utils
 import typing
 
 
@@ -101,7 +101,7 @@ class _Laola:
             if isinstance(self.key, slice):
                 self.key.indices(1)
                 parts = (x[w] for w in circular_windows(self.key, len(x)))
-                return join[type(x)](parts)
+                return tcga.utils.join[type(x)](parts)
 
             if isinstance(self.key, int):
                 return x[self.key % len(x)]
@@ -147,7 +147,7 @@ class Circular:
         return F"{type(self).__name__}({repr(self.x)})"
 
 
-def example():
+def _example():
     S = "a string"
     assert S[3:1] == ""
 
@@ -185,4 +185,4 @@ def example():
 
 
 if __name__ == '__main__':
-    example()
+    _example()
