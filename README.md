@@ -43,7 +43,7 @@ RNA codons:
 ```python
 from tcga.utils import First
 from tcga.codons.tables import standard as rna_codons
-from tcga.complements.complements import dna_to_rna, dna_to_dna
+from tcga.complements import dna_to_rna, dna_to_dna
 from tcga.strings import triplets, reverse
 
 X = reverse("CACGAACTTGTCGAGACCATTGCC")
