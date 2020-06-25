@@ -29,6 +29,7 @@ class TestFirst(TestCase):
             diff = (X - Y).abs().sum().sum()
             if (i == 'HENS920102'):
                 # BLOSUM62 matrices do not match
+                # One is 1/2 bit units, the other is 1/3 bit units
                 self.assertEqual(diff, 388)
             else:
                 self.assertEqual(diff, 0, )

@@ -1,1 +1,1 @@
-from .blosum import blosum45, blosum50, blosum62, blosum80
+from .blosum import blosum45_13, blosum50_13, blosum62_12, blosum80_13

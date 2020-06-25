@@ -223,6 +223,57 @@ else:
 ```
 
 
+### [Example](examples/00007_blosum62.py)
+
+```python
+import json
+pretty = (lambda x: json.dumps(dict(x), indent=2, default=(lambda x: '...')))
+
+print("[BLOSUM62 -- AAindex]")
+from tcga.data.aaindex import data
+# https://www.genome.jp/dbget-bin/www_bget?aaindex:HENS920102
+i = 'HENS920102'  # ID of BLOSUM62
+A = data[i].M
+print(data[i].D, data[i]['*'], sep='\n')
+print("Matrix:", A.astype(int).head(3), "...", sep='\n')
+
+print("[BLOSUM62 -- FASTA]")
+from tcga.data.blosum import blosum62_12 as B
+from tcga.refs import annotations
+print(pretty(annotations[B]), sep="\n")
+print("Matrix:", B.head(3), "...", sep='\n')
+```
+
+```
+[BLOSUM62 -- AAindex]
+BLOSUM62 substitution matrix (Henikoff-Henikoff, 1992)
+matrix in 1/3 Bit Units
+Matrix:
+   A  R  N  D  C  Q  E  G  H  I  L  K  M  F  P  S  T  W  Y  V
+A  6 -2 -2 -3 -1 -1 -1  0 -2 -2 -2 -1 -1 -3 -1  2  0 -4 -3  0
+R -2  8 -1 -2 -5  1  0 -3  0 -4 -3  3 -2 -4 -3 -1 -2 -4 -3 -4
+N -2 -1  8  2 -4  0  0 -1  1 -5 -5  0 -3 -4 -3  1  0 -6 -3 -4
+...
+[BLOSUM62 -- FASTA]
+{
+  "source": "https://github.com/wrpearson/fasta36/tree/7c0dba1dfe5fc92d937f2bd5f9c90b8bfdb14743/data",
+  "date": "2020-06-15",
+  "comments": [
+    "BLOSUM62 is in 1/2 bit units, the others are in 1/3 bit units.",
+    "The BLOSUM62 matrix is the original, miscalculated one according to [1, Supplementary Fig 4]."
+  ],
+  "references": [
+    "[1] Styczynski, M., Jensen, K., Rigoutsos, I. et al. BLOSUM62 miscalculations improve search performance. Nat Biotechnol 26, 274-275 (2008). https://doi.org/10.1038/nbt0308-274"
+  ]
+}
+Matrix:
+   A  R  N  D  C  Q  E  G  H  I  L  K  M  F  P  S  T  W  Y  V  B  Z  X
+A  4 -1 -2 -2  0 -1 -1  0 -2 -1 -1 -1 -1 -2 -1  1  0 -3 -2  0 -2 -1  0
+R -1  5  0 -2 -3  1  0 -2  0 -3 -2  2 -1 -3 -2 -1 -1 -3 -2 -3 -1  0 -1
+N -2  0  6  1 -3  0  0  0  1 -3 -3  0 -2 -3 -2  1  0 -4 -2 -3  3  0 -1
+...
+```
+
 ## License
 
 MIT/Expat.
