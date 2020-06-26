@@ -32,11 +32,11 @@ class _:
             return self._.local_folder
 
         def to(self, *, rel_path=None, abs_path=None):
+            if (bool(abs_path) == bool(rel_path)):
+                raise RuntimeError("Either rel_path /or/ abs_path must be specified.")
             if abs_path:
-                assert not rel_path
                 local_folder = pathlib.Path(abs_path)
             else:
-                assert not abs_path
                 f = inspect.currentframe().f_back
                 local_folder = (pathlib.Path(f.f_code.co_filename).parent / rel_path)
             return type(self)(**{**self._, 'local_folder': local_folder})
