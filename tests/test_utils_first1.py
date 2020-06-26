@@ -44,3 +44,25 @@ class TestFirst(TestCase):
         with self.assertRaises(RuntimeError):
             First(lambda x: x).then(2)
 
+    def test_collapse_to_dict(self):
+        from tcga.utils import First
+        a = {i: i ** 2 for i in range(10)}
+        b = (lambda x: (x - 1))
+        f = First(a).then(b).dict(a)
+        self.assertIsInstance(f, dict)
+        self.assertEqual(f[9], b(a[9]))
+
+    def test_each(self):
+        from tcga.utils import First
+        f = First(str.split).each(str.upper).then(list)
+        self.assertListEqual(f("a b"), ['A', 'B'])
+
+    def test_join_str(self):
+        from tcga.utils import First
+        f = First(str.split).join(str)
+        self.assertEqual(f("a b"), "ab")
+
+    def test_join_tuple(self):
+        from tcga.utils import First
+        f = First(str.split).join(tuple)
+        self.assertTupleEqual(f("a b"), ('a', 'b'))

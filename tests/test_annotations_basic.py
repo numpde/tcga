@@ -26,3 +26,4 @@ class TestReferences(TestCase):
         annotations[self] = {'author': "anon"}
         with self.assertRaises(KeyError):
             annotations[self] = {}
+
