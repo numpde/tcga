@@ -4,5 +4,5 @@
 include README.md
 
 include tcga/data/aaindex/static/parsed/aaindex.pkl.zip
-include tcga/codons/tables/static/parsed/tables.pkl.zip
+include tcga/codons/static/parsed/tables.pkl.zip
 exclude tcga/data/aaindex/static/original
