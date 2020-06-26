@@ -7,11 +7,17 @@ in particular containing the field 'source'.
 
 import tcga.strings
 import tcga.refs
+import pathlib
+import zipfile
+import pickle
+import datetime
+import json
+import pandas
 
 # On codes
 # https://en.wikipedia.org/wiki/Translation_(biology)#Translation_tables
 
-standard = dict(tcga.strings.nnna(
+standard_rna = dict(tcga.strings.nnna(
     # (Phe/F) Phenylalanine
     'UUU F'
     'UUC F'
@@ -100,7 +106,30 @@ standard = dict(tcga.strings.nnna(
     'GGG G'
 ))
 
-tcga.refs.annotations[standard] = {
+tcga.refs.annotations[standard_rna] = {
     'source': "https://en.wikipedia.org/wiki/Genetic_code#Standard_codon_tables",
     'date': "2020-06-17",
 }
+
+
+class _:
+    # Save to file
+    parsed = (pathlib.Path(__file__).parent / "static/parsed/tables.pkl.zip")
+    parsed.parent.mkdir(exist_ok=True)
+
+    with zipfile.ZipFile(parsed, mode='r', compression=zipfile.ZIP_DEFLATED) as zf:
+        with zf.open("data", mode='r') as fd:
+            tables = pickle.load(fd)
+        with zf.open("meta", 'r') as fd:
+            meta = json.load(fd)
+
+
+tables: pandas.DataFrame
+tables = _.tables.set_index('id')
+tcga.refs.annotations[tables] = _.meta
+
+assert hasattr(tables, 'name')
+assert hasattr(tables, 'short_name')
+assert hasattr(tables, 'dna_codons')
+assert hasattr(tables, 'rna_codons')
+
