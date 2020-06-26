@@ -9,7 +9,8 @@ ftp://ftp.genome.jp/pub/db/community/aaindex/
 """
 
 import re
-
+import io
+import json
 import wget
 import time
 import pickle
@@ -165,21 +166,20 @@ def main():
     out.parent.mkdir(exist_ok=True, parents=True)
 
     with zipfile.ZipFile(out, mode='w', compression=zipfile.ZIP_LZMA) as zf:
-        with zf.open(str(out.with_suffix(".pkl").name), mode='w') as fd:
+        with zf.open("data", mode='w') as fd:
             pickle.dump(data, fd)
 
-    meta = '\n'.join(
-        str(file.name) + ": \n" + open(str(file) + "_meta.txt", 'r').read()
-        for file in files
-    )
+        with zf.open("meta", mode='w') as fd:
+            meta = {
+                'datetime': datetime.now(tz=timezone.utc).isoformat(sep=' '),
+                'compiled from': {
+                    file.name: list(map(str.strip, open(str(file) + "_meta.txt", 'r').readlines()))
+                    for file in files
+                }
+            }
+            json.dump(meta, io.TextIOWrapper(fd, write_through=True))
 
-    out_meta = Path(str(out) + "_meta.txt")
-    with out_meta.open('w') as fd:
-        print("Created on {} using".format(datetime.now(tz=timezone.utc)), file=fd)
-        print("", file=fd)
-        print(meta, file=fd)
-
-    print(F"Done; see {out_meta}")
+    print(F"Done; see {out}")
 
 
 if __name__ == '__main__':
