@@ -1,1 +1,1 @@
-from .tables import tables, standard_rna
+from .codons import tables, standard_rna
