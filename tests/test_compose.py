@@ -3,7 +3,7 @@
 import unittest
 
 from tcga.utils import First
-from tcga.codons.tables import standard as codons
+from tcga.codons import standard_rna as codons
 from tcga.complements.complements import dna_to_rna, dna_to_dna
 from tcga.strings import triplets, reverse
 
