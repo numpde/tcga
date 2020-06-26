@@ -52,6 +52,12 @@ class First:
         self.__ff.append(_.Join(as_type))
         return self
 
+    def dict(self, keys) -> dict:
+        """
+        Convert to a dictionary on `keys`.
+        """
+        return {k: self(k) for k in keys}
+
     def __matmul__(self, other):
         return First(other).then(self)
 
