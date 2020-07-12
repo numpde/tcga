@@ -36,6 +36,14 @@ def reverse(s: str) -> str:
     return s[::-1]
 
 
+def lines(s: str) -> typing.Iterable[str]:
+    """
+    Split the string at '\n' and yield the lines.
+    Applies str.strip to each line.
+    """
+    yield from map(str.strip, s.strip().split('\n'))
+
+
 def nnna(s: str, n=3, m=1) -> typing.Iterable[typing.Tuple[str, str]]:
     """
     Takes a string like
