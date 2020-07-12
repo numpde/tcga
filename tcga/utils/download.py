@@ -20,6 +20,8 @@ import urllib.request
 
 
 class _:
+    downloads = []
+
     class Download:
         def __init__(self, **kwargs):
             self._ = pandas.Series({
@@ -66,16 +68,18 @@ class _:
             if self._.again or not local_file.exists():
                 local_file.parent.mkdir(exist_ok=True, parents=True)
 
+                assert 'url' not in self._.meta
+                assert 'datetime' not in self._.meta
+
                 with contextlib.closing(urllib.request.urlopen(url=self._.url)) as rd:
                     with zipfile.ZipFile(local_file, mode='w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
                         with zf.open("data", mode='w') as fd:
                             shutil.copyfileobj(rd, fd)
                         with zf.open("meta", mode='w') as fd:
-                            assert 'url' not in self._.meta
-                            assert 'datetime' not in self._.meta
-                            self._.meta['source'] = self._.url
-                            self._.meta['datetime'] = datetime.datetime.now(tz=datetime.timezone.utc).isoformat(sep=' ')
-                            fd.write(json.dumps(self._.meta).encode())
+                            meta = self._.meta.copy()
+                            meta['source'] = self._.url
+                            meta['datetime'] = datetime.datetime.now(tz=datetime.timezone.utc).isoformat(sep=' ')
+                            fd.write(json.dumps(meta).encode())
 
             assert local_file.exists()
 
@@ -118,8 +122,19 @@ class _:
                     with self.open(mode='r') as _:
                         return _.read()
 
+                @property
+                def json(self):
+                    return json.loads(self.text)
+
             obj = Local(local_file, meta)
-            tcga.refs.annotations[obj] = meta
+
+            try:
+                # Keep reference to avoid id(...) clash
+                _.downloads.append(obj)
+
+                tcga.refs.annotations[obj] = meta
+            except KeyError:
+                raise RuntimeWarning(F"This error may happen if you download several file but discard the .now object.")
 
             return obj
 
