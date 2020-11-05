@@ -73,7 +73,7 @@ class _:
 
                 with contextlib.closing(urllib.request.urlopen(url=self._.url)) as rd:
                     with zipfile.ZipFile(local_file, mode='w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
-                        with zf.open("data", mode='w') as fd:
+                        with zf.open("data", mode='w', force_zip64=True) as fd:
                             shutil.copyfileobj(rd, fd)
                         with zf.open("meta", mode='w') as fd:
                             meta = self._.meta.copy()
