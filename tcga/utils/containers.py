@@ -16,12 +16,19 @@ def first(X):
     return next(iter(X))
 
 
-def at_most_n(X, n):
+def at_most_n(X, n=-1):
     """
     Yields at most n elements from iterable X.
+    All elements if n equals -1.
+    No elements if n is None.
     """
-    for (x, __) in zip(X, range(n)):
-        yield x
+    if n is None:
+        pass
+    elif (n == -1):
+        yield from X
+    else:
+        for (x, __) in zip(X, range(n)):
+            yield x
 
 
 def unlist1(L):
