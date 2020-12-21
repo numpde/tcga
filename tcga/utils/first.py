@@ -48,6 +48,22 @@ class First:
         )
         return self
 
+    def keep(self, predicate=None):
+        """
+        Performs
+            filter(predicate, .)
+
+        In particular, if `predicate` is None,
+        keeps only the truthy elements.
+        """
+        self.__ff.append(
+            lambda c: filter(
+                self._as_callable(predicate) if (predicate is not None) else None,
+                c
+            )
+        )
+        return self
+
     def join(self, as_type):
         self.__ff.append(_.Join(as_type))
         return self
