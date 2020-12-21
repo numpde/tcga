@@ -1,17 +1,11 @@
 Computational biology & bioinformatics utils
 ============================================
 
-
 ## About
 
-This python3 package provides basic tools to work with genomic data.
-It is under development (2020-06-18). 
-Meanwhile, see examples below.
-Note: some examples may require packages 
-that are not automatically installed
-with this package
-(e.g. [ʕ◕ᴥ◕ʔ](https://pandas.pydata.org/)). 
-
+This python3 package provides basic tools to work with genomic data. It is under creeping development. Meanwhile, see
+examples below. Note: some examples may require packages that are not automatically installed with this package
+(e.g. [ʕ◕ᴥ◕ʔ](https://pandas.pydata.org/)).
 
 ## Installation
 
@@ -21,19 +15,93 @@ Install or upgrade to newer version with:
 pip3 install --upgrade tcga
 ```
 
-
 ## Usage
 
+### [Example](examples/00000_utils.py)
+
+Miscellaneous utilities.
+
+```python
+import io
+from pathlib import Path
+
+from tcga.utils import mkdir
+# A wrapper for Path.mkdir:
+# path = mkdir(Path("/path/to/folder"))
+
+from tcga.utils import unlist1
+# Returns the object from a list
+# iff the list is a singleton
+assert 43 == unlist1([43])
+# An iterable will be consumed:
+assert 36 == unlist1((x ** 2) for x in [6])
+# These fail with a ValueError:
+# unlist1([])
+# unlist1([1, 2])
+
+from tcga.utils import relpath
+# Returns the path relative to the script
+
+from tcga.utils import first
+# Returns the first element of an iterable
+assert 'A' == first("ABCD")
+
+from tcga.utils import at_most_n
+# Lazy cut-off for iterables
+print(list(at_most_n("ABCD", n=2)))
+# ['A', 'B']
+
+from tcga.utils import whatsmyname
+def rose():
+    print(whatsmyname())
+    # Prints the name of
+    # the function: rose
+
+from tcga.utils import assert_exists
+# If `file` is a filename or path then
+#   assert_exists(file)
+# either raises FileNotFoundError
+# or returns back `file`
+
+from tcga.utils import md5
+# Computes the md5 hash of a text stream chunkwise.
+# Attempts to rewind the stream back using .tell()
+print(md5(io.StringIO("I know that I shall meet my fate")))
+# 06a118b2f090ed1b39a1d07efdaa5d78
+
+from tcga.utils import from_iterable
+# Wraps chain.from_iterable, i.e.
+print(set(from_iterable([[1, 2, 5], [4, 5]])))
+print(from_iterable([[1, 2, 5], [4, 5]], type=set))
+# {1, 2, 4, 5}
+
+from tcga.utils import minidict
+# A minimalistic read-only dictionary
+minidict({1: 'A', 2: 'B'})
+
+from tcga.utils import seek_then_rewind
+# Context manager for rewinding file descriptors
+with open(__file__, mode='r') as fd:
+    with seek_then_rewind(fd, seek=2):
+        print(fd.readline().strip())
+        # port io
+    print(fd.readline().strip())
+    # import io
+```
 
 ### [Example](examples/00001_codons.py)
 
+DNA/RNA codons. 
+
 ```python
 from tcga.codons import standard_rna
+
 print("RNA codons (standard):")
 print(standard_rna)
 # {'UUU': 'F', 'UUC': 'F', 'UUA': 'L', ...}
 
 from tcga.codons import tables
+
 print("Other codon tables:")
 print(tables.name)
 # 1: Standard, 2: Vertebrate Mitochondrial, 3: Yeast Mitochondrial ...
@@ -50,6 +118,7 @@ assert tables.rna_codons[1] == standard_rna
 
 import json
 from tcga.refs import annotations
+
 print(json.dumps(annotations[tables], indent=2))
 # {
 #   "comments": [
@@ -64,8 +133,9 @@ print(json.dumps(annotations[tables], indent=2))
 # }
 ```
 
-
 ### [Example](examples/00002_compose.py)
+
+Function composition.
 
 ```python
 from tcga.utils import First
@@ -83,16 +153,19 @@ print(X, "=>", f(X))
 CCGTTACCAGAGCTGTTCAAGCAC => HELVETIA
 ```
 
-
 ### [Example](examples/00003_circular.py)
+
+Circular strings.
 
 ```python
 from tcga.utils import Circular
+
 # This creates a circular view onto the string
 c = Circular("ABCDEFG")
 print(F"c = {c}", c[0:20], c[-3:20:2], type(c[0:20]), sep=", ")
 
 from tcga.utils import laola
+
 # This this looks at a str/list/tuple in a circular way
 v = laola[-3:20:2]
 print(v("ABCDEFG"))
@@ -103,8 +176,9 @@ c = Circular('ABCDEFG'), ABCDEFGABCDEFGABCDEF, EGBDFACEGBDF, <class 'str'>
 EGBDFACEGBDF
 ```
 
-
 ### [Example](examples/00004_aa_properties1.py)
+
+Tracking of information sources.
 
 ```python
 import json
@@ -136,8 +210,9 @@ print(json.dumps(annotations[aa_properties], indent=2))
 }
 ```
 
-
 ### [Example](examples/00005_aaindex.py)
+
+AAindex amino acid property repository.
 
 ```python
 import json
@@ -211,8 +286,10 @@ https://www.genome.jp/aaindex/AAindex/list_of_matrices
 ...
 ```
 
-
 ### [Example](examples/00006_download.py)
+
+Downloading files directly to a compressed file
+and attaching metainformation.
 
 ```python
 from tcga.utils import download
@@ -249,15 +326,18 @@ else:
 # Seq('GGGCGGCGACCTCGCGGGTTTTCGCTATTTATGAAAATTTTCCGGTTTAAGGCG...ACG', SingleLetterAlphabet())
 ```
 
-
 ### [Example](examples/00007_blosum62.py)
+
+BLOSUM matrices.
 
 ```python
 import json
+
 pretty = (lambda x: json.dumps(dict(x), indent=2, default=(lambda x: '...')))
 
 print("[BLOSUM62 -- AAindex]")
 from tcga.data.aaindex import data
+
 # https://www.genome.jp/dbget-bin/www_bget?aaindex:HENS920102
 i = 'HENS920102'  # ID of BLOSUM62
 A = data[i].M
@@ -267,6 +347,7 @@ print("Matrix:", A.astype(int).head(3), "...", sep='\n')
 print("[BLOSUM62 -- FASTA]")
 from tcga.data.blosum import blosum62_12 as B
 from tcga.refs import annotations
+
 print(pretty(annotations[B]), sep="\n")
 print("Matrix:", B.head(3), "...", sep='\n')
 ```
@@ -304,7 +385,6 @@ N -2  0  6  1 -3  0  0  0  1 -3 -3  0 -2 -3 -2  1  0 -4 -2 -3  3  0 -1
 ## License
 
 MIT/Expat.
-
 
 ## Suggestions
 
