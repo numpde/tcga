@@ -15,8 +15,10 @@ def relpath(path):
 
 
 def assert_exists(file):
-    assert pathlib.Path(file).exists(), F"Oh, file `{file}`, where art thou?!"
-    return file
+    if not pathlib.Path(file).exists():
+        raise FileNotFoundError(F"Oh, file `{file}`, where art thou?!")
+    else:
+        return file
 
 
 @contextlib.contextmanager
