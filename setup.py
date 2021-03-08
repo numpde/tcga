@@ -9,7 +9,7 @@ import setuptools
 
 setuptools.setup(
     name="tcga",
-    version="0.0.18",
+    version="0.0.19",
     author="RA",
     author_email="numpde@null.net",
     keywords="computational biology bioinformatics genetics",

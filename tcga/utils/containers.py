@@ -41,6 +41,14 @@ def unlist1(L):
     return L[0]
 
 
+def pretty(x):
+    """
+    Return a formatted JSON string of `x`.
+    """
+    import json
+    return json.dumps(x, indent=2)
+
+
 class minidict:
     """
     A slim read-only dictionary.
