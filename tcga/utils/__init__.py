@@ -4,3 +4,4 @@ from .download import download
 from .containers import *
 from .files import *
 from .meta import *
+from .peek import Peek
